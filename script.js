@@ -1,5 +1,6 @@
 var qTitle = document.getElementById("quizTitle");
 var qContent = document.getElementById("quizContent");
+var score = 0;
 var qScoreTotal = document.getElementById("totalScore");
 var qTimeLeft = document.getElementById("timeLeft");
 
@@ -23,23 +24,29 @@ var myQ = [{
 
 // the following function will display question at index 0 of the myQ array
     function dispQuestion(){
-    qTitle.textContent = myQ[0].question;
-    for (ii=0; ii<myQ[0].answer.length; ii++) {
+        // let rQ = parseInt(Math.floor(Math.random()*myQ.length))
+        qTitle.textContent = myQ[0].question;
+        for (ii=0; ii<myQ[0].answer.length; ii++) {
         var aBtn = document.createElement("button");
         aBtn.setAttribute("class", "row")
         aBtn.textContent = myQ[0].answer[ii];
         qContent.appendChild(aBtn);
     } 
+
     }
 dispQuestion()
-// now that it will show a question, need to randomize it out of the array,
+// now that it will show a question, NEED to get next question to show when click a good or bad button. want to randomize it out of the array, so find a way to link that 0 index to index n? a new function around it, involving it axing 
 
 // adding an event listener for the buttons, do event handling here
 qContent.addEventListener("click", function(event) {
     event.preventDefault();
 
     if (event.target.matches("button")) {
-        // check if event.target.textContent matches
+        if (event.target.textContent === (myQ[0].correctAnswer)) {
+            console.log("bananas");
+            score+=5;
+
+        }
     }
 })
 
