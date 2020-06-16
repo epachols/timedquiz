@@ -5,21 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Trix Quick Quiz &copy;</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <nav class="navbar">
 
+<body>
+
+    <nav class="d-flex justify-content-between px-3">
+        <p>Total Score: <span id="totalScore"></span></p>
+        <p>Time Left: <span id="timeLeft"></span></p>
     </nav>
-    <div class="container">
-        <div class="row"></div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>
+
+    <div class="container" id="quizContent">
+        <div class="row" id="quizTitle"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
 
 </body>
 </html>
