@@ -77,3 +77,29 @@ qContent.addEventListener("click", function(event) {
 // TODO:WHEN the game is over
 // TODO:THEN I can save my initials and score
         // make score table show up and hide normally
+
+
+
+
+
+// =============================between these separators is the time function=============
+var secondsLeft = 45;
+
+function setTime() {
+  var timerInterval = setInterval(function() {
+    secondsLeft--;
+    qTimeLeft.textContent = secondsLeft;
+
+    if(secondsLeft === 0) {
+      clearInterval(timerInterval);
+      alert("Game Over");
+      qTimeLeft.textContent = "";
+      
+    }
+
+  }, 1000);
+}
+// this will serve to alert the player if they 
+
+// call this not here, but pressing the start button!
+setTime();
