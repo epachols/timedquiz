@@ -2,16 +2,17 @@
 var qTitle = document.getElementById("quizTitle");
 var qContent = document.getElementById("quizContent");
 var nameText = document.getElementById("name-text");
+var userName = '';
+var nameForm = document.getElementById("name-form");
 var scoreBrd = document.getElementById("scoreboard");
 // setting initial value of scoreBrd to display:none 
-scoreBrd.display = "none";
-// nameText.display = "none"; doesn't work, is this because it's a form??
+// scoreBrd.display = "none";
 var score = 0;
-var savedScores = [];
+// var savedScores = [];
 var qScoreTotal = document.getElementById("totalScore");
 var qTimeLeft = document.getElementById("timeLeft");
 var startBox = document.getElementById("startBox");
-var qCounter = "0";
+var qCounter = 0;
 // var clearQ = (qContent.innerHTML=''); doesn't work, sets both to the final '' pair. need to sub in? or just reuse the same chunk of code?
 var myQ = [{
     question: "The DOM in reference to a webpage refers to:",
@@ -46,14 +47,13 @@ var myQ = [{
     answer: ["Using a common global key as a variable reference", "Adding a shadow effect in CSS", "Having a second, out of date bootstrap CDN link after your up-to-date one", "Making dog shapes in front of a candle when the power goes out" ],
     correctAnswer: "Using a common global key as a variable reference" 
 }]
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++game over function, including scoreboard show++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++game over function, including scoreboard show+++++++
+
 function gameOver(){
     // show scoreboard
     scoreBrd.display = "block";
-    // show input, 
-    nameText.display = "block";
     // hide questions 
-    qContent.innerHTML='';
+    qContent.innerHTML='GAME OVAH';
 }
 
 // =============================================scoreboard render function=================================================== 
@@ -75,7 +75,6 @@ function setTime() {
       clearInterval(timerInterval);
       gameOver();
       qTimeLeft.textContent = "0";
-    //   change game over alert to gameOver() {fire clearQ, change display property of leaderboard to block,}
     }
 
   }, 1000);
@@ -114,11 +113,14 @@ startBtn.textContent = "Ready to Begin?"
 startBox.appendChild(startBtn);
 
 startBtn.addEventListener("click", function(){
-    startBox.innerHTML = '';
-    setTime();
-    // have it fischer-yates shuffle the array of questions HERE 
-    dispQuestion();
-    console.log("i made a start button");
+    if (nameText.value !== '') {
+        startBox.innerHTML = '';
+        setTime();
+        // have it fischer-yates shuffle the array of questions HERE 
+        dispQuestion();
+        userName = nameText.value;
+        
+    } else alert("come on, we want yer name!");
 })
 // the following event listener handles the cases of user selecting right or wrong answers.
 
@@ -129,16 +131,17 @@ qContent.addEventListener("click", function(event) {
     // *************Use counter down here (let counter = 0 and compare to question array length as well as timerZero, make the dispquestion a FOREACH)********
     if (event.target.matches("button")) {
         if (event.target.textContent === (myQ[qCounter].correctAnswer)) {
-            console.log("bananas");
             score+=5;
-            qContent.innerHTML=''
-            qCounter++;
-            dispQuestion();
+            qCounter++;   
         } 
         else {
             secondsLeft-=5;
+            qCounter++;    
+        }
+        if (qCounter === myQ.length) {
+            gameOver();
+        } else {
             qContent.innerHTML=''
-            qCounter++;
             dispQuestion();
         }
         qScoreTotal.textContent= score;
