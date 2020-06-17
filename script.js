@@ -1,10 +1,15 @@
+// initial variable declarations
 var qTitle = document.getElementById("quizTitle");
 var qContent = document.getElementById("quizContent");
+var scoreBrd = document.getElementById("scoreboard");
+// setting initial value of scoreBrd to display:none 
+// scoreBrd.display = "none";
 var score = 0;
 var qScoreTotal = document.getElementById("totalScore");
 var qTimeLeft = document.getElementById("timeLeft");
-
-
+var startBox = document.getElementById("startBox");
+var qCounter = "0";
+// var clearQ = (qContent.innerHTML=''); doesn't work, sets both to the final '' pair. need to sub in? or just reuse the same chunk of code?
 var myQ = [{
     question: "The DOM in reference to a webpage refers to:",
     answer: ["Domino's. MMMM greasy.","dominos: the table game","Dom perignon","Document Object Model"],
@@ -21,9 +26,30 @@ var myQ = [{
     question: "This basic language is often considered the 'muscle' of the web experience",
     answer: ["HTML", "Javascript", "Bananarama", "CSS" ],
     correctAnswer: "Javascript" 
+},{
+    question: "How much wood Could a wood Chuck Chuck if a wood Chuck could chuck wood?",
+    answer: ["all the wood", "most of the wood", "some of the wood", "but... they don't!" ],
+    correctAnswer: "all the wood" 
+},{
+    question: "The snippet event.stopPropagation() would be used to:",
+    answer: ["Keep the bamboo from takin' over the yard", "Generating an ordered List", "Preventing a Javascript action from bubbling up to its parent", "Preventing a for loop from running too many times" ],
+    correctAnswer: "Preventing a Javascript action from bubbling up to its parent" 
+},{
+    question: "True or false: An Array is a speciazed type of object",
+    answer: ["T", "F",],
+    correctAnswer: "T" 
+},{
+    question: "Since it's bad and we should avoid it, what is shadowing?",
+    answer: ["Using a common global key as a variable reference", "Adding a shadow effect in CSS", "Having a second, out of date bootstrap CDN link after your up-to-date one", "Making dog shapes in front of a candle when the power goes out" ],
+    correctAnswer: "Using a common global key as a variable reference" 
 }]
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++game over function, including scoreboard show++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function gameOver(){
+// make a scoreboard, div and buttons, have them hide until game over 
+}
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++game over function, including scoreboard show++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-// ====================between these separators lives setTime() the time function=============
+// ====================between these separators lives setTime() the time function==================================================================================================
 var secondsLeft = 45;
 
 function setTime() {
@@ -34,66 +60,79 @@ function setTime() {
     if(secondsLeft === 0) {
       clearInterval(timerInterval);
       alert("Game Over");
-      qTimeLeft.textContent = "";
+      qTimeLeft.textContent = "0";
     //   change game over alert to gameOver() {fire clearQ, change display property of leaderboard to block,}
     }
 
   }, 1000);
 }
-//  pressing the start button should call setTime, 
-setTime();
-// ===========================================TIMER function END================================
+// ===========================================TIMER function END=====================================================================================================================
 
-//======================================START function start() definition begin====================== 
-// 
+// ==========the following function will display question at index qCounter of the myQ array=========================================================================================
 
-// ==========the following function will display question at index 0 of the myQ array================
+function dispQuestion(){
+    // showing quiz questions  
+    var showQ = document.createElement("div");
+    showQ.setAttribute("class", "row");
+    showQ.setAttribute("class", "h2");
+    showQ.textContent = myQ[qCounter].question;
+    qContent.appendChild(showQ);
 
-    function dispQuestion(){
-        // possibly extend to additional forloop? for (nn=0, nn<myQ.length nn++). 
-        // set a var that is equal to current question.
-        
-        // the forloop below generates a button for each possible answer for item of myQ at index [0]
-        for (ii=0; ii<myQ[1].answer.length; ii++) {
-        qTitle.textContent = myQ[1].question;
+    // the forloop below generates a button for each possible answer for item of myQ at index [qCounter].
+    for (ii=0; ii<myQ[qCounter].answer.length; ii++) {
+        // showing quiz answer possiblities 
         var aBtn = document.createElement("button");
         aBtn.setAttribute("class", "row")
-        aBtn.textContent = myQ[1].answer[ii];
+        aBtn.textContent = myQ[qCounter].answer[ii];
         qContent.appendChild(aBtn);
+        // should maybe set condition for counter = myQ.length = gameover
     } 
+    console.log(qCounter);
+} 
+      
+// =========================================dispQuestion function END================================================================================================================
 
-    }
-dispQuestion()
-// now that it will show a question, want to randomize it out of the array, so find a way to link that 0 index to index n? 
-// =========================================dispQuestion function END==========================================
+//======================================START function start() definition begin====================================================================================================== 
+var startBtn = document.createElement("button");
+startBtn.setAttribute("class", "btn");
+startBtn.setAttribute("class", "btn-lg");
+startBtn.textContent = "Ready to Begin?"
+startBox.appendChild(startBtn);
 
+startBtn.addEventListener("click", function(){
+    startBox.innerHTML = '';
+    setTime();
+    dispQuestion();
+    console.log("i made a start button");
+})
 // the following event listener handles the cases of user selecting right or wrong answers.
+
+// =====================================================================EVENT HANDLING FOR CLICKING BUTTONS, RIGHT OR WRONG========================================================
 qContent.addEventListener("click", function(event) {
     event.preventDefault();
     
+    // *************Use counter down here (let counter = 0 and compare to question array length as well as timerZero, make the dispquestion a FOREACH)********
     if (event.target.matches("button")) {
-        if (event.target.textContent === (myQ[1].correctAnswer)) {
+        if (event.target.textContent === (myQ[qCounter].correctAnswer)) {
             console.log("bananas");
             score+=5;
-            let clearQ = (qContent.innerHTML = "") && (qTitle.textContent = "");
-            // dispQuestion();
+            qContent.innerHTML=''
+            qCounter++;
+            dispQuestion();
         } 
         else {
             secondsLeft-=5;
-            let clearQ = (qContent.innerHTML = "") && (qTitle.textContent = "");
-            // used twice Here , put this wayyy up at beginning, then generate start button to fill, THEN do an event listener/click for 
-            // dispQuestion();
+            qContent.innerHTML=''
+            qCounter++;
+            dispQuestion();
         }
         qScoreTotal.textContent= score;
     }
 })
 
- 
-// TODO: GIVEN I am taking a code quiz
-// TODO:THEN a timer starts
- //TODO:and I am presented with a question
-// TODO:WHEN I answer a question
 // TODO:WHEN I click the start button
+// TODO:WHEN I answer a question
+// TODO:THEN a timer starts
         // make a start btn in js, put in qContent
         // have it fire the timer function,
         // hide itself (display:none)
