@@ -8,7 +8,7 @@ var scoreBrd = document.getElementById("scoreboard");
 // setting initial value of scoreBrd to display:none 
 // scoreBrd.display = "none";
 var score = 0;
-// var savedScores = [];
+var savedScores = '';
 var qScoreTotal = document.getElementById("totalScore");
 var qTimeLeft = document.getElementById("timeLeft");
 var startBox = document.getElementById("startBox");
@@ -47,7 +47,7 @@ var myQ = [{
     answer: ["Using a common global key as a variable reference", "Adding a shadow effect in CSS", "Having a second, out of date bootstrap CDN link after your up-to-date one", "Making dog shapes in front of a candle when the power goes out" ],
     correctAnswer: "Using a common global key as a variable reference" 
 }]
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++game over function, including scoreboard show+++++++
+// +++++++++++++++++++++++++++game over function, including scoreboard show++++++++++++++++++++++++++++++++++++
 
 function gameOver(){
     // show scoreboard
@@ -56,14 +56,14 @@ function gameOver(){
     qContent.innerHTML='GAME OVAH';
 }
 
-// =============================================scoreboard render function=================================================== 
+// =================================scoreboard render function================================================ 
 function renderScoreBrd (){
     for (i = 0; i<savedScores.length; i++) {
 
     }
 }
 
-// ====================between these separators lives setTime() the time function==================================================================================================
+// ====================between these separators lives setTime() the time function=====================================================================================================
 var secondsLeft = 45;
 
 function setTime() {
@@ -83,7 +83,7 @@ function setTime() {
 
 
 
-// ==========the following function will display question at index qCounter of the myQ array=========================================================================================
+// ==========the following function will display question at index qCounter of the myQ array====================
 
 function dispQuestion(){
     // showing quiz questions  
@@ -105,9 +105,8 @@ function dispQuestion(){
 } 
       
 
-//======================================START function start() definition begin====================================================================================================== 
+//========================START function start() definition====================================================
 var startBtn = document.createElement("button");
-startBtn.setAttribute("class", "btn");
 startBtn.setAttribute("class", "btn-lg");
 startBtn.textContent = "Ready to Begin?"
 startBox.appendChild(startBtn);
@@ -122,13 +121,12 @@ startBtn.addEventListener("click", function(){
         
     } else alert("come on, we want yer name!");
 })
-// the following event listener handles the cases of user selecting right or wrong answers.
 
-// =====================================================================EVENT HANDLING FOR CLICKING BUTTONS, RIGHT OR WRONG========================================================
+// ======================EVENT HANDLING FOR CLICKING BUTTONS, RIGHT OR WRONG===============================
+// =============================ALSO HANDLES G/O DUE TO QUESTIONS END======================================
 qContent.addEventListener("click", function(event) {
     event.preventDefault();
-    
-    // *************Use counter down here (let counter = 0 and compare to question array length as well as timerZero, make the dispquestion a FOREACH)********
+
     if (event.target.matches("button")) {
         if (event.target.textContent === (myQ[qCounter].correctAnswer)) {
             score+=5;
@@ -163,7 +161,3 @@ qContent.addEventListener("click", function(event) {
 // TODO:WHEN the game is over
 // TODO:THEN I can save my initials and score
         // make score table show up and hide normally
-
-
-        // current issues to resolve - refreshing or changing questions doesn't seem to change question text
-        // need to make scoreboard.
