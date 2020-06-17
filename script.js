@@ -1,10 +1,13 @@
 // initial variable declarations
 var qTitle = document.getElementById("quizTitle");
 var qContent = document.getElementById("quizContent");
+var nameText = document.getElementById("name-text");
 var scoreBrd = document.getElementById("scoreboard");
 // setting initial value of scoreBrd to display:none 
-// scoreBrd.display = "none";
+scoreBrd.display = "none";
+// nameText.display = "none"; doesn't work, is this because it's a form??
 var score = 0;
+var savedScores = [];
 var qScoreTotal = document.getElementById("totalScore");
 var qTimeLeft = document.getElementById("timeLeft");
 var startBox = document.getElementById("startBox");
@@ -45,9 +48,20 @@ var myQ = [{
 }]
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++game over function, including scoreboard show++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function gameOver(){
-// make a scoreboard, div and buttons, have them hide until game over 
+    // show scoreboard
+    scoreBrd.display = "block";
+    // show input, 
+    nameText.display = "block";
+    // hide questions 
+    qContent.innerHTML='';
 }
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++game over function, including scoreboard show++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// =============================================scoreboard render function=================================================== 
+function renderScoreBrd (){
+    for (i = 0; i<savedScores.length; i++) {
+
+    }
+}
 
 // ====================between these separators lives setTime() the time function==================================================================================================
 var secondsLeft = 45;
@@ -59,14 +73,16 @@ function setTime() {
 
     if(secondsLeft === 0) {
       clearInterval(timerInterval);
-      alert("Game Over");
+      gameOver();
       qTimeLeft.textContent = "0";
     //   change game over alert to gameOver() {fire clearQ, change display property of leaderboard to block,}
     }
 
   }, 1000);
 }
-// ===========================================TIMER function END=====================================================================================================================
+
+
+
 
 // ==========the following function will display question at index qCounter of the myQ array=========================================================================================
 
@@ -85,12 +101,10 @@ function dispQuestion(){
         aBtn.setAttribute("class", "row")
         aBtn.textContent = myQ[qCounter].answer[ii];
         qContent.appendChild(aBtn);
-        // should maybe set condition for counter = myQ.length = gameover
     } 
     console.log(qCounter);
 } 
       
-// =========================================dispQuestion function END================================================================================================================
 
 //======================================START function start() definition begin====================================================================================================== 
 var startBtn = document.createElement("button");
@@ -102,6 +116,7 @@ startBox.appendChild(startBtn);
 startBtn.addEventListener("click", function(){
     startBox.innerHTML = '';
     setTime();
+    // have it fischer-yates shuffle the array of questions HERE 
     dispQuestion();
     console.log("i made a start button");
 })
