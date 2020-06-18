@@ -10,15 +10,11 @@ var scoreBrd = document.getElementById("scoreboard");
 var score = 0;
 var endScore = {};
 var savedScores = JSON.parse(localStorage.getItem("scorelist"));
-if (!savedScores) {
-    savedScores = [];
-} 
-console.log(savedScores);
+if (!savedScores) {savedScores = [];} 
 // var storedScoresReturn = JSON.parse({savedScores});
 var qScoreTotal = document.getElementById("totalScore");
 var qTimeLeft = document.getElementById("timeLeft");
 var startBox = document.getElementById("startBox");
-
 // question variables, including counter
 var qCounter = 0;
 var myQ = [{
@@ -59,6 +55,7 @@ var myQ = [{
 
 
 
+// ++++++++++++++qShuffle() shuffles the question bank+++++++++++++++++++
 function qShuffle() {
     // this will shuffle the questions with a fisher yates
 }
@@ -66,7 +63,8 @@ function qShuffle() {
 
 
 
-// =========between these separators lives setTime() the time function==========================
+
+// ======setTime() is the timer function, calls gameOver()===============
 var secondsLeft = 45;
 var timerInterval;
 function setTime() {
@@ -82,9 +80,7 @@ function setTime() {
 
   }, 1000);
 }
-
-// =======f(dispQuestion())displays q and a at index qCounter of the myQ array=================
-
+// dispQuestion() makes a series of elements for question object details
 function dispQuestion(){
     // showing quiz questions  
     var showQ = document.createElement("div");
@@ -101,12 +97,12 @@ function dispQuestion(){
     } 
     console.log(qCounter);
 } 
-//==============START make-n-place ==========================
+//=======================START make-n-place =============================
 var startBtn = document.createElement("button");
 startBtn.setAttribute("class", "btn-lg");
 startBtn.textContent = "Ready to Begin?"
 startBox.appendChild(startBtn);
-
+// ---------------event handler for start button-------------------------- 
 startBtn.addEventListener("click", function(){
     if (nameText.value !== '') {
         startBox.innerHTML = '';
@@ -117,8 +113,7 @@ startBtn.addEventListener("click", function(){
         
     } else alert("come on, we want yer name!");
 })
-
-//=======Event Handler for button clicks during quiz====================
+//=======Event Handler for button clicks during quiz=====================
 qContent.addEventListener("click", function(event) {
     event.preventDefault();
     // give em points if they're right, take time away if wrong
@@ -140,8 +135,7 @@ qContent.addEventListener("click", function(event) {
         qScoreTotal.textContent= score;
     }
 })
-
-// ====================SCOREBOARD RENDERING f(x)========================
+//----------------------SCOREBOARD RENDERING f(x)-------------------------
 function renderBoard() {
     // for each object in this array, 
     for (ii=0; ii<savedScores.length; ii++) {
@@ -165,7 +159,6 @@ function renderBoard() {
     }
 }
 //++++++++++++++++++++++++GAME OVER f(x)+++++++++++++++++++++++++++++++++
-
 function gameOver(){
     // bonus here for scoring well 
     if (score > 35){
@@ -194,12 +187,9 @@ function gameOver(){
     qContent.innerHTML='GAME OVAH';
     // BONUS = try to make here an option where game over adds the remaining time as an integer to the score 
 }
-
-
-
 // TODO: RANDOM SHUFFLE OF QUESTION ARRAY AT START FUNCTION line 114
 // TODO: change styling of created items from row, or make a row, make a button, append to fix styling issue. also fix y margin on buttons, 
 // could also treat as a single column, and make/insert a <br> in between each one to make it pretty. maybe add class btn.
-// TODO:
+// TODO:play again button. (window.refresh)
 // TODO:
 // TODO:
