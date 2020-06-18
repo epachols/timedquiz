@@ -91,8 +91,7 @@ function dispQuestion(){
     showQ.setAttribute("class", "row h2");
     showQ.textContent = myQ[qCounter].question;
     qContent.appendChild(showQ);
-
-    // the forloop below generates a button for each possible answer for item of myQ at index [qCounter].
+    // the below loop makes a button for every possible answer
     for (ii=0; ii<myQ[qCounter].answer.length; ii++) {
         // showing quiz answer possiblities 
         var aBtn = document.createElement("button");
@@ -102,9 +101,7 @@ function dispQuestion(){
     } 
     console.log(qCounter);
 } 
-      
-
-//================START function start() definition==========================================
+//==============START make-n-place ==========================
 var startBtn = document.createElement("button");
 startBtn.setAttribute("class", "btn-lg");
 startBtn.textContent = "Ready to Begin?"
@@ -121,10 +118,10 @@ startBtn.addEventListener("click", function(){
     } else alert("come on, we want yer name!");
 })
 
-//===================Listener Event Handler for button clicks during quiz====================
+//=======Event Handler for button clicks during quiz====================
 qContent.addEventListener("click", function(event) {
     event.preventDefault();
-
+    // give em points if they're right, take time away if wrong
     if (event.target.matches("button")) {
         if (event.target.textContent === (myQ[qCounter].correctAnswer)) {
             score+=5;
@@ -144,7 +141,7 @@ qContent.addEventListener("click", function(event) {
     }
 })
 
-// ================f(renderSb()) renders the scoreboard with stored info=================
+// ====================SCOREBOARD RENDERING f(x)========================
 function renderBoard() {
     // for each object in this array, 
     for (ii=0; ii<savedScores.length; ii++) {
@@ -167,26 +164,30 @@ function renderBoard() {
     
     }
 }
-renderBoard()
-// +++++++++===============++++++game over function+++++===============++++++++++++++++++
+//++++++++++++++++++++++++GAME OVER f(x)+++++++++++++++++++++++++++++++++
 
 function gameOver(){
+    // bonus here for scoring well 
+    if (score > 35){
+    score += secondsLeft;
+    alert(`Congrats! Adding the ${secondsLeft} seconds you had remaining to your score`)
+    }
     // clearing interval so no double Game over
     clearInterval(timerInterval);
     // saving score and user name to local object
     endScore["name"]=userName;
     endScore["score"]=score;
-    // sort scoreboard
+    // pushing local object to savedScores[]
+    savedScores.push(endScore);
+    // nested function: sorting savedScores array
     savedScores.sort(function(a, b) {
         return b.score - a.score;
     });
-    // pushing local object to savedScores[]
-    savedScores.push(endScore);
+    renderBoard();
     // storing stringified object to local storage to overwrite previous scoreboard list
     localStorage.setItem("scorelist", JSON.stringify(savedScores));
     
     console.log(savedScores);
-    // render scoreboard **NEEDS DOING** 
     // show scoreboard
     scoreBrd.classList.remove("hide");
     // hide questions 
@@ -196,18 +197,9 @@ function gameOver(){
 
 
 
-// TODO:WHEN I click the start button
-// TODO:WHEN I answer a question
-// TODO:THEN a timer starts
-        // make a start btn in js, put in qContent
-        // have it fire the timer function,
-        // hide itself (display:none)
-// TODO:THEN I am presented with another question
-        // make this the result of quiz page randomization of fill from array of properties. need 4 buttons, and use form submission and reset block.
-// TODO:WHEN I answer a question incorrectly THEN time is subtracted from the clock
-// TODO:WHEN all questions are answered or the timer reaches 0
-        // set game over message and conditions in single function on page.
-// TODO:THEN the game is over
-// TODO:WHEN the game is over
-// TODO:THEN I can save my initials and score
-        // make score table show up and hide normally
+// TODO: RANDOM SHUFFLE OF QUESTION ARRAY AT START FUNCTION line 114
+// TODO: change styling of created items from row, or make a row, make a button, append to fix styling issue. also fix y margin on buttons, 
+// could also treat as a single column, and make/insert a <br> in between each one to make it pretty. maybe add class btn.
+// TODO:
+// TODO:
+// TODO:
