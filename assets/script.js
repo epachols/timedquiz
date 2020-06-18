@@ -67,13 +67,13 @@ var fisherYatesShuff = (stack) => {
     }
     return stack
   };
-//one time shuffle of question bank before game starts
+//one time shuffle of question bank before game starts********************
   fisherYatesShuff(myQ);
-//one time shuffle of the answers bank for each question.
+//one time shuffle of the answers bank for each question.*****************
   for (x=0; x<myQ.length; x++) {
     fisherYatesShuff(myQ[x].answer)
 }
-// ======setTime() is the timer function, calls gameOver()=================
+// ======setTime() is the timer function, calls gameOver()================
 var secondsLeft = 45;
 var timerInterval;
 function setTime() {
@@ -197,9 +197,8 @@ function gameOver(){
     // BONUS = try to make here an option where game over adds the remaining time as an integer to the score 
 }
 
+// ------------------------try again button------------------------------- 
 tryAgain.addEventListener("click", function(){
 window.location.reload();
 })
  
-// could also treat as a single column, and make/insert a <br> in between each one to make it pretty. maybe add class btn.
-// TODO:play again button. (location.reload)
