@@ -19,12 +19,19 @@
 
     
 
-    <div class="container w-60vw justify-content-center">
+    <div class="container justify-content-center">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 px-1">
                 <div class="card text-center justify-content-center" id="startBox">
                     <h4 class="my-4">Welcome to Code Crow's Quick Script Quiz</h4>
-                    <p>Please let us know your name, so you may be immortalized in the Code Crow Score Sheet.</p>
+                    <hr>
+                    <p class="px-5">You will be asked a series of (partially) Javascript related questions. Answer to the best of your abilities, good luck!
+                        <br>
+                        <br>Please let us know your name, so you may be immortalized in the Code Crow Score Sheet.
+                        
+                        
+                        
+                    </p>
                     <form class="my-3" id="name-form" method="POST">
                         <input type="text" placeholder="Enter your name" id="name-text" />
                         <br>
@@ -34,11 +41,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 justify-content-center" id="quizContent"></div>
+            <div class="col-md-10 justify-content-center" id="quizContent"></div>
         </div>
         <div class="row justify-content-center"></div>
         <div class="row py-2 justify-content-center">
-            <div class="col-md-6 my-4" id="scoreboard"></div>
+            <div class="col-md-6 my-4" id="scoreboard">
+                <div class="row">
+                    <button class="btn btn-lg bg-success" id="tryAgainBtn">Try Again?</button>
+                </div>
+            </div>
         </div>
         
     </div>

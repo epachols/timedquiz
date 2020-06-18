@@ -31,31 +31,6 @@ localStorage.setItem("scorelist", JSON.stringify(savedScores))
 
 // I need to: 
 
-// DEAL WITH EDGE CASE OF SOMEONE CLICKING ON NONBUTTON FOR LISTENER. MAYBE MAKE IT DOCUMENT WIDE?
-
-// set an empty object to saved Scores  **DONE**
-
-// at end of round 
-// 1. do the savedScores["nameuserenteredhere"]=score **DONE**
-    // change that to be the user entered input and score **DONE**
-// 3. or just localStorage.setItem("scorelist", JSON.stringify(savedScores)) **DONE**
-
-// at beginning of game (when page loads)
-// 1. retrieve stored scores **DONE**
-// 2. include possibility of no scores. ***DONE**
-function renderScoreBrd() {
-    // Clear todoList element and update todoCountSpan
-    scoreBrd.innerHTML = "";
-    
-  
-    // Render a new scoreboard item ()
-    for (var i = 0; i < todos.length; i++) {
-     
-    }
-  }
-
-
-
   function init() {
     // Get savedscores from localStorage
     // Parsing the JSON string to an object
@@ -73,3 +48,27 @@ let array = [{},{},{}],
 array.sort((a, b) => {
     return (a.property > b.property)
 });
+
+
+
+var fisherYatesShuffle = (deck) => {
+  for (var i = deck.length - 1; i > 0; i--) {
+    var swapIndex = Math.floor(Math.random() * (i + 1))
+    var currentCard = deck[i]
+    var cardToSwap = deck[swapIndex]
+    deck[i] = cardToSwap
+    deck[swapIndex] = currentCard
+  }
+  return deck
+}
+
+var fisherYatesShuff = (myQarray) => {
+  for (var i = myQ.length - 1; i > 0; i--) {
+    var questSwap = Math.floor(Math.random() * (i + 1))
+    var currentQuest = myQ[i]
+    var switchedQuest = myQ[questSwap]
+    myQ[i] = switchedQuest
+    myQ[questSwap] = currentQuest
+  }
+  return myQ
+}
