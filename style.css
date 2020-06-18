@@ -9,3 +9,7 @@ container {
     margin: 35%, auto;
     width: 80vw; 
 }
+
+.hide {
+    display: none;
+}

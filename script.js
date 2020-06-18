@@ -1,19 +1,26 @@
 // initial variable declarations
 var qTitle = document.getElementById("quizTitle");
 var qContent = document.getElementById("quizContent");
+var nameForm = document.getElementById("name-form");
 var nameText = document.getElementById("name-text");
 var userName = '';
-var nameForm = document.getElementById("name-form");
+// setting initial value of scores, score storage, and scoreboard display
 var scoreBrd = document.getElementById("scoreboard");
-// setting initial value of scoreBrd to display:none 
-// scoreBrd.display = "none";
+    scoreBrd.classList.add("hide");
 var score = 0;
-var savedScores = '';
+var endScore = {};
+var savedScores = JSON.parse(localStorage.getItem("scorelist"));
+if (!savedScores) {
+    savedScores = [];
+} 
+console.log(savedScores);
+// var storedScoresReturn = JSON.parse({savedScores});
 var qScoreTotal = document.getElementById("totalScore");
 var qTimeLeft = document.getElementById("timeLeft");
 var startBox = document.getElementById("startBox");
+
+// question variables, including counter
 var qCounter = 0;
-// var clearQ = (qContent.innerHTML=''); doesn't work, sets both to the final '' pair. need to sub in? or just reuse the same chunk of code?
 var myQ = [{
     question: "The DOM in reference to a webpage refers to:",
     answer: ["Domino's. MMMM greasy.","dominos: the table game","Dom perignon","Document Object Model"],
@@ -44,34 +51,30 @@ var myQ = [{
     correctAnswer: "T" 
 },{
     question: "Since it's bad and we should avoid it, what is shadowing?",
-    answer: ["Using a common global key as a variable reference", "Adding a shadow effect in CSS", "Having a second, out of date bootstrap CDN link after your up-to-date one", "Making dog shapes in front of a candle when the power goes out" ],
-    correctAnswer: "Using a common global key as a variable reference" 
+    answer: ["Calling a function parameter by a previous global variable", "Adding a shadow effect in CSS", "Having a second, out of date bootstrap CDN link after your up-to-date one", "Making dog shapes in front of a candle when the power goes out" ],
+    correctAnswer: "Calling a function parameter by a previous global variable" 
 }]
-// +++++++++++++++++++++++++++game over function, including scoreboard show++++++++++++++++++++++++++++++++++++
 
-function gameOver(){
-    // show scoreboard
-    scoreBrd.display = "block";
-    // hide questions 
-    qContent.innerHTML='GAME OVAH';
+
+
+
+
+function qShuffle() {
+    // this will shuffle the questions with a fisher yates
 }
 
-// =================================scoreboard render function================================================ 
-function renderScoreBrd (){
-    for (i = 0; i<savedScores.length; i++) {
 
-    }
-}
 
-// ====================between these separators lives setTime() the time function=====================================================================================================
+
+// =========between these separators lives setTime() the time function==========================
 var secondsLeft = 45;
-
+var timerInterval;
 function setTime() {
-  var timerInterval = setInterval(function() {
+    timerInterval = setInterval(function() {
     secondsLeft--;
     qTimeLeft.textContent = secondsLeft;
 
-    if(secondsLeft === 0) {
+    if((secondsLeft === 0)||(qCounter === myQ.length)) {
       clearInterval(timerInterval);
       gameOver();
       qTimeLeft.textContent = "0";
@@ -80,16 +83,12 @@ function setTime() {
   }, 1000);
 }
 
-
-
-
-// ==========the following function will display question at index qCounter of the myQ array====================
+// =======f(dispQuestion())displays q and a at index qCounter of the myQ array=================
 
 function dispQuestion(){
     // showing quiz questions  
     var showQ = document.createElement("div");
-    showQ.setAttribute("class", "row");
-    showQ.setAttribute("class", "h2");
+    showQ.setAttribute("class", "row h2");
     showQ.textContent = myQ[qCounter].question;
     qContent.appendChild(showQ);
 
@@ -97,7 +96,7 @@ function dispQuestion(){
     for (ii=0; ii<myQ[qCounter].answer.length; ii++) {
         // showing quiz answer possiblities 
         var aBtn = document.createElement("button");
-        aBtn.setAttribute("class", "row")
+        aBtn.setAttribute("class", "row mx-5");
         aBtn.textContent = myQ[qCounter].answer[ii];
         qContent.appendChild(aBtn);
     } 
@@ -105,7 +104,7 @@ function dispQuestion(){
 } 
       
 
-//========================START function start() definition====================================================
+//================START function start() definition==========================================
 var startBtn = document.createElement("button");
 startBtn.setAttribute("class", "btn-lg");
 startBtn.textContent = "Ready to Begin?"
@@ -122,8 +121,7 @@ startBtn.addEventListener("click", function(){
     } else alert("come on, we want yer name!");
 })
 
-// ======================EVENT HANDLING FOR CLICKING BUTTONS, RIGHT OR WRONG===============================
-// =============================ALSO HANDLES G/O DUE TO QUESTIONS END======================================
+//===================Listener Event Handler for button clicks during quiz====================
 qContent.addEventListener("click", function(event) {
     event.preventDefault();
 
@@ -145,6 +143,58 @@ qContent.addEventListener("click", function(event) {
         qScoreTotal.textContent= score;
     }
 })
+
+// ================f(renderSb()) renders the scoreboard with stored info=================
+function renderBoard() {
+    // for each object in this array, 
+    for (ii=0; ii<savedScores.length; ii++) {
+    // make a row
+    var row = document.createElement("div");
+    row.setAttribute("class", "row border border-rounded rounded");
+    scoreBrd.appendChild(row);
+    // make a div classed col-md-8
+    var nameCol = document.createElement("div");
+    nameCol.setAttribute("class", "col col-md-8 bg-dark text-light text-right");
+    nameCol.innerHTML = savedScores[ii].name;
+    row.appendChild(nameCol);
+    // add it to the row 
+     
+    // make a div classed col-md-4
+    var scoreCol = document.createElement("div");
+    scoreCol.setAttribute("class", "col col-md-4 bg-info text-dark");
+    scoreCol.innerHTML = savedScores[ii].score + " points";
+    row.appendChild(scoreCol);
+    
+    }
+}
+renderBoard()
+// +++++++++===============++++++game over function+++++===============++++++++++++++++++
+
+function gameOver(){
+    // clearing interval so no double Game over
+    clearInterval(timerInterval);
+    // saving score and user name to local object
+    endScore["name"]=userName;
+    endScore["score"]=score;
+    // sort scoreboard
+    savedScores.sort(function(a, b) {
+        return b.score - a.score;
+    });
+    // pushing local object to savedScores[]
+    savedScores.push(endScore);
+    // storing stringified object to local storage to overwrite previous scoreboard list
+    localStorage.setItem("scorelist", JSON.stringify(savedScores));
+    
+    console.log(savedScores);
+    // render scoreboard **NEEDS DOING** 
+    // show scoreboard
+    scoreBrd.classList.remove("hide");
+    // hide questions 
+    qContent.innerHTML='GAME OVAH';
+    // BONUS = try to make here an option where game over adds the remaining time as an integer to the score 
+}
+
+
 
 // TODO:WHEN I click the start button
 // TODO:WHEN I answer a question
