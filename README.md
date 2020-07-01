@@ -2,6 +2,8 @@
 
  # A timed quiz made with HML, CSS, and Javascript that scores would be takers and posts a high-score rank.
 
+ - deployed link : https://epachols.github.io/timedquiz/
+ 
 1. When a user opens the page, they will be prompted to enter a name to proceed to the quiz.
 2. When a user enters a name (and only when) they may click the start button, whereupon:
 3. A timer will begin.
